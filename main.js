@@ -6,10 +6,10 @@ let biblioteka = [
 ];
 
 let ishodniiSpisokAvtorov = [
-  {id: "4f698c299add", familia: "Пушкин", imea: "Александр", otcestvo: "Сергеевич", datarojdenia: "06/06/1799", knigvbaze: "1", },
-  {id: "80b1480184ba", familia: "Бианки", imea: "Виталий", otcestvo: "Валентинович", datarojdenia: "30/01/1894", knigvbaze: "1", },
-  {id: "198565e8b4e2", familia: "Робертс", imea: "Чарльз", otcestvo: "Дуглас", datarojdenia: "10/01/1860", knigvbaze: "1", },
-  {id: "895289418a29", familia: "Толстой", imea: "Лев", otcestvo: "Николаевич", datarojdenia: "09/09/1828", knigvbaze: "1", }
+  {id: "4f698c299add", familia: "Пушкин", imea: "Александр", otcestvo: "Сергеевич", datarojdenia: "06/06/1799", knigvbaze: "1" },
+  {id: "80b1480184ba", familia: "Бианки", imea: "Виталий", otcestvo: "Валентинович", datarojdenia: "30/01/1894", knigvbaze: "1" },
+  {id: "198565e8b4e2", familia: "Робертс", imea: "Чарльз", otcestvo: "Дуглас", datarojdenia: "10/01/1860", knigvbaze: "1" },
+  {id: "895289418a29", familia: "Толстой", imea: "Лев", otcestvo: "Николаевич", datarojdenia: "09/09/1828", knigvbaze: "1" }
 ];
 
 let ishodniiSpisokКnig = [
@@ -113,8 +113,8 @@ let countpagesvalue;
 let selectjanrbook;
 let inputAuthorValue;
 
-let linki = `<td><a onclick="editData(this.parentNode.parentNode.id)" class="nav-link active" aria-current="page" href="#">Редактировать</a>
-<a onclick="removeData(this.parentNode.parentNode.id)" class="nav-link active" aria-current="page" href="#">Удалить</a></td>
+let linki = `<td><a onclick="editData(this.parentNode.parentNode.id)" class="" aria-current="page" href="#">Редактировать</a>
+<a onclick="removeData(this.parentNode.parentNode.id)" class="" aria-current="page" href="#">Удалить</a></td>
 </tr>`;
 
 let removeData = function(inputId) {
@@ -237,29 +237,102 @@ let editDataAuthor = function(inputId) {
      editResultParseAuth = resultParseAuth[i];
    }
   }
-  document.getElementById(inputId).innerHTML = `<td><input value="${editResultParseAuth.familia}"></td>
-                                              <td><input value="${editResultParseAuth.imea}"></td>
-                                              <td><input value="${editResultParseAuth.otcestvo}"></td>
-                                              <td><input value="${editResultParseAuth.datarojdenia}"></td>
-                                              <td><input value="${editResultParseAuth.Knigvbaze}"></td>
-                                              <td><a class="nav-link active " aria-current="page" href="#">Сохранить</a></td>`;
+  let myform = `<form id="myFormAvtor" class="row mt-3">
+   <div class="mb-3 col-sm-8">
+     <label for="authName">Имя Автора*</label>
+     <input type="text" class="form-control" id="authName" value="${editResultParseAuth.familia}" required>
+     <input type="text" class="form-control" id="authLastName" value="${editResultParseAuth.imea}" required>
+     <input type="text" class="form-control" id="authDadName" value="${editResultParseAuth.otcestvo}">
+     <input type="data" class="form-control" id="authDataBirth" value="${editResultParseAuth.datarojdenia}" required>
+     <input type="data" class="form-control" id="knigInBase" value="${editResultParseAuth.knigvbaze}" required>
+     <button onclick="saveEditedAuthor(this.parentNode.parentNode.id);" type="submit" class="btn btn-success mb-3">Сохранить</button>
+   </div>
+ </form>`;
+  document.getElementById(inputId).innerHTML = myform;
+  // document.getElementById(inputId).innerHTML = `<td><input value="${editResultParseAuth.familia}"></td>
+  //                                             <td><input value="${editResultParseAuth.imea}"></td>
+  //                                             <td><input value="${editResultParseAuth.otcestvo}"></td>
+  //                                             <td><input value="${editResultParseAuth.datarojdenia}"></td>
+  //                                             <td><input value="${editResultParseAuth.knigvbaze}"></td>
+  //                                             <td><a class="nav-link active " aria-current="page" href="#">Сохранить</a></td>`;
+  authFormEvents();
+  document.getElementById('knigInBase').onchange = function() {
+    knigvbaze =  document.getElementById('knigInBase').value;
+    console.log ('Knigi v base izmeneni: ' + knigvbaze);
+  }
 }
+
+let knigvbaze;
+
+let saveEditedAuthor = function(targetId) {
+  console.log('target ID: ' + targetId);
+  console.log('save Author was clicked');
+  let targetIndex;
+
+  for (let i = 0; i < resultParseAuth.length; i++) {
+   if(resultParseAuth[i].id === targetId ){
+    targetIndex = i;
+    console.log('Target Index: ' + i);
+   }
+  }
+
+  
+  resultParseAuth[targetIndex].familia = imeaavtoralue;
+  resultParseAuth[targetIndex].imea = familiaavtoralue;
+  resultParseAuth[targetIndex].otcestvo = otcestvoavtoralue;
+  resultParseAuth[targetIndex].datarojdenia = datarojavtoralue;
+  resultParseAuth[targetIndex].knigvbaze = knigvbaze;
+
+  resultParseAuth[targetIndex];
+  localStorage.setItem('currentAuthList', JSON.stringify(resultParseAuth));
+  displayAvtors();
+}
+
+let editedCount;
 
 let editDataJanr = function(inputId) {
   console.log(inputId);
   let editResultParseJanr;
 
   for (let i = 0; i < resultParseJanr.length; i++) {
-    console.log(resultParseJanr[i]);
    if(resultParseJanr[i].id === inputId ){
-     console.log("jkjoijoij");
     editResultParseJanr = resultParseJanr[i];
    }
   }
-  document.getElementById(inputId).innerHTML = `<td><input value="${editResultParseJanr.janr}"></td>
-                                              <td><input value="${editResultParseJanr.kolcicknig}"></td>
-                                              <td><a class="nav-link active " aria-current="page" href="#">Сохранить</a></td>`
+  let myform = `<form id="myEditJanrForm" class="row g-3">
+      <div class="mb-3"> 
+        <input type="text" class="form-control" id="editJanr" value="${editResultParseJanr.janr}" required>
+        <input type="text" class="form-control" id="editCount" value="${editResultParseJanr.kolcicknig}" disabled>
+      </div>
+      <div class="col-auto">
+        <button id="saveEditedJanr" type="submit" class="btn btn-success mb-3" onclick="saveUpdatedJanr(this.parentNode.parentNode.id);">Сохранить</button>
+      </div>
+    </form>`;
+  document.getElementById(inputId).innerHTML = myform;
 
+  document.getElementById('editJanr').onchange = function() {
+    janrvalue = document.getElementById('editJanr').value;
+    editedCount = document.getElementById('editCount').value;
+    console.log ("Janr was edited +++: " + janrvalue);
+  }
+
+}
+
+let saveUpdatedJanr = function(targetId) {
+  console.log('target ID: ' + targetId);
+  console.log('save was clicked');
+  let targetIndex;
+
+  for (let i = 0; i < resultParseJanr.length; i++) {
+   if(resultParseJanr[i].id === targetId ){
+    targetIndex = i;
+    console.log('Target Index: ' + i);
+   }
+  }
+  resultParseJanr[targetIndex].janr = janrvalue;
+
+  localStorage.setItem('currentJanrList', JSON.stringify(resultParseJanr));
+  displayJanr();
 }
 
 let editDataBook = function(inputId) {
@@ -269,32 +342,41 @@ let editDataBook = function(inputId) {
       editResultParseBook = resultParseBook[i];
     }
   }
-  // document.getElementById(inputId).innerHTML = `<td><input value="${editResultParseBook.nazvanie}"></td>
-  //                                                   <td><input value="${editResultParseBook.kolicstranits}"></td>
-  //                                                   <td><input value="${editResultParseBook.janr}"></td>
-  //                                                   <td><input value="${editResultParseBook.avtor}"></td>
-  //                                             <td><a class="nav-link active " aria-current="page" href="#">Сохранить</a></td>`
   document.getElementById(inputId).innerHTML = `<form id="myFormBook" class="row g-3">
-                                                    <div class="mb-3">
-                                                      <div class="col">
-                                                        <input type="text" class="form-control" id="nameBook" value="${editResultParseBook.nazvanie}" required>
-                                                      </div>
-                                                      <div class="col">
-                                                        <input type="number" class="form-control" id="countpages" value="${editResultParseBook.kolicstranits}" required>
-                                                      </div>
-                                                      <div class="col">
-                                                        <select  id="selectJanr" class="form-select" aria-label="Default select example">
-                                                          <option selected>Выберите жанр</option> ${selectFokrmBook()} </select>
-                                                      </div>
-                                                      <div class="col">
-                                                        <input type="text" class="form-control" id="auth" value="${editResultParseBook.avtor}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                      <button onclick="saveFormBook()" type="submit" class="btn btn-success mb-3">Сохранить</button>
-                                                    </div>
-                                                                        </form>`;
+      <div class="mb-3">
+        <input type="text" class="form-control" id="nameBook" value="${editResultParseBook.nazvanie}" required>
+        <input type="number" class="form-control" id="countpages" value="${editResultParseBook.kolicstranits}" required>
+        <select  id="selectJanr" class="form-select" aria-label="Default select example">
+          <option selected>Выберите жанр</option> ${selectFokrmBook()} </select>
+        <input type="text" class="form-control" id="author" value="${editResultParseBook.avtor}">
+      </div>
+      <div class="col-auto">
+        <button onclick="saveEditedBook(this.parentNode.parentNode.id);" type="submit" class="btn btn-success mb-3">Сохранить</button>
+      </div>
+    </form>`;
   bookFormEvents();
+}
+
+let saveEditedBook = function(targetId) {
+  console.log('target ID: ' + targetId);
+  console.log("Save book was clicked!");
+  let targetIndex;
+
+  for (let i = 0; i < resultParseBook.length; i++) {
+   if(resultParseBook[i].id === targetId ){
+    targetIndex = i;
+    console.log('Target Index: ' + i);
+   }
+  }
+  //nazvanieknigivalue,countpagesvalue,selectjanrbook,inputAuthorValue
+//nazvanie: "Лукоморье", kolicstranits: "150", janr: "Поэзия", avtor: "Пушкин А.С."
+  resultParseBook[targetIndex].nazvanie = nazvanieknigivalue;
+  resultParseBook[targetIndex].kolicstranits = countpagesvalue;
+  resultParseBook[targetIndex].janr = selectjanrbook;
+  resultParseBook[targetIndex].avtor = inputAuthorValue;
+
+  localStorage.setItem('currentBookList', JSON.stringify(resultParseBook));
+  displayBooks();
 }
 
  let displayFormAuth = function() {
@@ -306,7 +388,7 @@ let editDataBook = function(inputId) {
      <input type="text" class="form-control" id="authLastName" placeholder="Фамилия автора" required><br>
      <input type="text" class="form-control" id="authDadName" placeholder="Отчество автора"><br>
      <input type="data" class="form-control" id="authDataBirth" placeholder="Дата рождения автора" required><br>
-     <button onclick="saveFormAuth()" type="submit" class="btn btn-success mb-3">Сохранить</button>
+     <button onclick="saveFormAuth();" type="submit" class="btn btn-success mb-3">Сохранить</button>
    </div>
  </form>`;
   document.getElementById('localdiv').innerHTML = formresult + myform;
@@ -385,34 +467,44 @@ let selectFokrmBook = function(){
     inputAuthorValue =  document.getElementById('author').value;
     console.log (inputAuthorValue);
   }
-}
 
-let saveFormBook = function() {
   document.getElementById("myFormBook").onsubmit = function (e) {
     let knigiObject = new Knigi(nazvanieknigivalue,countpagesvalue,selectjanrbook,inputAuthorValue);
-    console.log('Новый объет: ' + knigiObject);
+    console.log('Новый объет: ' + JSON.stringify(knigiObject));
     resultParseBook.push(knigiObject);
     localStorage.setItem('currentBookList', JSON.stringify(resultParseBook));
     currentBook = localStorage.getItem('currentBookList');
-    displayBooks();
+    // displayBooks();
   }
+}
+
+let saveFormBook = function() {
+  console.log('saveFormClick');
+  // document.getElementById("myFormBook").onsubmit = function (e) {
+  //   let knigiObject = new Knigi(nazvanieknigivalue,countpagesvalue,selectjanrbook,inputAuthorValue);
+  //   console.log('Новый объет: ' + JSON.stringify(knigiObject));
+  //   resultParseBook.push(knigiObject);
+  //   localStorage.setItem('currentBookList', JSON.stringify(resultParseBook));
+  //   currentBook = localStorage.getItem('currentBookList');
+  //   // displayBooks();
+  // }
   
 }
 
- let displayFormJanr = function() {
+let displayFormJanr = function() {
   let myform = `<form id="myForm" class="row g-3">
-  <div class="mb-3"> 
-    <input type="text" class="form-control" id="inputjanr" placeholder="Введите новый жанр" required> <br>
-  </div>
-  <div class="col-auto">
-  <button id="buttonjanr" type="submit" class="btn btn-success mb-3">Сохранить</button>
-</div>
-</form>`;
+      <div class="mb-3"> 
+        <input type="text" class="form-control" id="inputjanr" placeholder="Введите новый жанр" required> <br>
+      </div>
+      <div class="col-auto">
+        <button id="buttonjanr" type="submit" class="btn btn-success mb-3">Сохранить</button>
+      </div>
+    </form>`;
   document.getElementById('localdiv').innerHTML = myform;
   saveFormJanr();
- };
+};
 
- let saveFormJanr = function() {
+let saveFormJanr = function() {
   document.getElementById('inputjanr').onchange = function() {
     janrvalue =  document.getElementById('inputjanr').value;
     console.log ("vveli novii janr");
@@ -424,7 +516,7 @@ let saveFormBook = function() {
       localStorage.setItem("currentJanrList",JSON.stringify(resultParseJanr));
       displayJanr();
   }
- }
+}
 
 let outputObject = function() {
     let resultAvtor = "";
