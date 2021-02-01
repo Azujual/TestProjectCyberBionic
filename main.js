@@ -239,7 +239,6 @@ let editDataAuthor = function(inputId) {
   }
   let myform = `<form id="myFormAvtor" class="row mt-3">
    <div class="mb-3 col-sm-8">
-     <label for="authName">Имя Автора*</label>
      <input type="text" class="form-control" id="authName" value="${editResultParseAuth.familia}" required>
      <input type="text" class="form-control" id="authLastName" value="${editResultParseAuth.imea}" required>
      <input type="text" class="form-control" id="authDadName" value="${editResultParseAuth.otcestvo}">
@@ -383,7 +382,6 @@ let saveEditedBook = function(targetId) {
    let formresult ="";
    let myform = `<form id="myFormAvtor" class="row mt-3">
    <div class="mb-3 col-sm-8">
-     <label for="authName">Имя Автора*</label>
      <input type="text" class="form-control" id="authName" placeholder="Имя автора" required> <br>
      <input type="text" class="form-control" id="authLastName" placeholder="Фамилия автора" required><br>
      <input type="text" class="form-control" id="authDadName" placeholder="Отчество автора"><br>
@@ -432,11 +430,12 @@ let selectFokrmBook = function(){
 
  let displayFormBook = function() {
   let myform = `<form id="myFormBook" class="row g-3">
-  <div class="mb-3"> 
+  <div class="mb-3 col-sm-8"> 
     <input type="text" class="form-control" id="nameBook" placeholder="Введите название книги" required> <br>
     <input type="number" class="form-control" id="countpages" placeholder="Введите количество страниц" required><br>
     <select  id="selectJanr" class="form-select" aria-label="Default select example">
             <option selected>Выберите жанр</option> ${selectFokrmBook()} </select>
+            <br>
     <input type="text" class="form-control" id="author" placeholder="Введите Автора" required><br>
   </div>
   <div class="col-auto">
@@ -493,8 +492,8 @@ let saveFormBook = function() {
 
 let displayFormJanr = function() {
   let myform = `<form id="myForm" class="row g-3">
-      <div class="mb-3"> 
-        <input type="text" class="form-control" id="inputjanr" placeholder="Введите новый жанр" required> <br>
+      <div class="mb-3 col-sm-8"> 
+        <input type="text" class="form-control" id="inputjanr" placeholder="Введите новый жанр" required>
       </div>
       <div class="col-auto">
         <button id="buttonjanr" type="submit" class="btn btn-success mb-3">Сохранить</button>
